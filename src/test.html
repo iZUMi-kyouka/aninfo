@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anime Characters</title>
+<style>
+    /* Style for the parent container */
+    .characters-container {
+        width: 60%;
+        overflow: hidden; /* Hide overflow outside of the container */
+        border: 1px solid #ccc; /* Just for visualization */
+        padding: 10px;
+    }
+
+    /* Style for the scrollable area */
+    .characters-scrollable {
+        width: calc(100% + 20px); /* Adjusting width to include scrollbar width */
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent characters from wrapping to next line */
+        padding-bottom: 20px; /* Add some padding at the bottom to prevent content from being partially hidden */
+    }
+
+    /* Style for individual character cards */
+    .character-card {
+        display: inline-block; /* Display characters in a row */
+        width: 150px; /* Set the width of each character card */
+        margin-right: 10px; /* Add some space between character cards */
+        border: 1px solid #ddd; /* Just for visualization */
+        border-radius: 5px;
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+
+<div class="characters-container">
+    <div class="characters-scrollable">
+        <!-- Sample character cards, replace with actual content -->
+        <div class="character-card">Character 1</div>
+        <div class="character-card">Character 2</div>
+        <div class="character-card">Character 3</div>
+        <div class="character-card">Character 4</div>
+        <div class="character-card">Character 5</div>
+        <div class="character-card">Character 6</div>
+        <!-- Add more character cards here -->
+    </div>
+</div>
+
+</body>
+</html>

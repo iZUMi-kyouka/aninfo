@@ -1,0 +1,15 @@
+pub mod top_navbar;
+pub mod appcontext_provider;
+pub mod animeobjcontext_provider;
+pub mod about_page;
+pub mod routes;
+pub mod home_page;
+pub mod stores;
+pub mod anime_result;
+pub mod anime_card;
+pub mod anime_desc;
+pub mod loading;
+pub mod footer;
+pub mod privacy_policy;
+pub mod anime_result_v2;
+pub mod char_card;
