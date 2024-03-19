@@ -1,0 +1,11 @@
+C:\Users\Flo\Desktop\Rust\aninfo\target\wasm32-unknown-unknown\debug\deps\libgloo_file-995afaa085c8046b.rmeta: C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\lib.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\blob.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_list.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_reader.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\object_url.rs
+
+C:\Users\Flo\Desktop\Rust\aninfo\target\wasm32-unknown-unknown\debug\deps\libgloo_file-995afaa085c8046b.rlib: C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\lib.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\blob.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_list.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_reader.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\object_url.rs
+
+C:\Users\Flo\Desktop\Rust\aninfo\target\wasm32-unknown-unknown\debug\deps\gloo_file-995afaa085c8046b.d: C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\lib.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\blob.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_list.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_reader.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\object_url.rs
+
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\lib.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\blob.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_list.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\file_reader.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-file-0.3.0\src\object_url.rs:
