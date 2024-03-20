@@ -5,102 +5,48 @@ use yew::prelude::*;
 use yew_router::hooks::use_navigator;
 use yewdux::prelude::*;
 
-use crate::{utils::handle_theme, Route};
+use crate::{components::stores::AnimeEpisode, utils::{handle_nsfw, handle_theme}, Route};
 
 use super::{appcontext_provider::AppContext, stores::{NavbarSearch, QueryResult}};
 use crate::components::anime_card::AnimeCard;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-    pub page: u8
+    pub page: u8,
+    pub query: String,
+    pub content_title: String
 }
 
 #[function_component(AnimeResult)]
 pub fn anime_result(props: &Props) -> Html {
-    let target_page = props.page;
     let app_ctx = use_context::<AppContext>().unwrap();
     let nav = use_navigator().expect("Navigation unavailable error.");
     let (r_state, r_disp) = use_store::<QueryResult>();
     let (nbs_state, nbs_disp) = use_store::<NavbarSearch>();
     let theme = handle_theme(&app_ctx);
-    let page = use_state(|| 1);
+    let anime_episode = use_state(|| AnimeEpisode{..Default::default()});
 
-    let prev_page = {
-        let nav = nav.clone();
-        let r_disp = r_disp.clone();
-        let cur_page = (*r_state).pagination.current_page;
-        let nbs_state = nbs_state.clone();
-        let page = page.clone();
-        Callback::from(move |e: MouseEvent| {
-            {
-                let nav = nav.clone();
-                nav.push(&Route::Loading);
-            }
-
-            let r_disp = r_disp.clone();
-            let nav = nav.clone();
-            page.set(*page-1);
-            let nbs_state = nbs_state.clone();
-            wasm_bindgen_futures::spawn_local(async move {
-                let result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime?q={}&page={}", &((*nbs_state).query), cur_page-1))
-                .send()
-                .await
-                .unwrap()
-                .json::<QueryResult>()
-                .await
-                .unwrap();
-
-            // log!(format!("{:?}", &result));
-            r_disp.set(result);
-            nav.push(&Route::AnimeResult{page: 1})
-            })
-        })
-    };
-    
-
-    let next_page = {
-        let nav = nav.clone();
-        let r_disp = r_disp.clone();
-        let cur_page = (*r_state).pagination.current_page;
-        let nbs_state = nbs_state.clone();
-        let page = page.clone();
-        Callback::from(move |e: MouseEvent| {
-            {
-                let nav = nav.clone();
-                nav.push(&Route::Loading);
-            }
-            let nbs_state = nbs_state.clone();
-            let r_disp = r_disp.clone();
-            let nav = nav.clone();
-            page.set(*page+1);
-            wasm_bindgen_futures::spawn_local(async move {
-                let result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime?q={}&page={}", &((*nbs_state).query), cur_page+1))
-                .send()
-                .await
-                .unwrap()
-                .json::<QueryResult>()
-                .await
-                .unwrap();
-
-            // log!(format!("{:?}", &result));
-            r_disp.set(result);
-            nav.push(&Route::AnimeResult{page:  1})
-            })
-        })
-    };
+    let query_prop = props.query.clone();
+    let content_title = props.content_title.clone();
 
     {//use_effect_callback
+        let (query_prop, content_title) = (query_prop.clone(), content_title.clone());
         let app_ctx = app_ctx.clone();
         let nbs_state = nbs_state.clone();
         let r_disp = r_disp.clone();
         let nav = nav.clone();
 
         use_effect_with(app_ctx.clone(), move |_| {
-
+            // Handle title
             let app_ctx_cloned = app_ctx.clone();
             {
-                let nbs_state = nbs_state.clone();
-                web_sys::window().unwrap().document().unwrap().set_title(&format!("ANiNFO | Search result for: {}", &(*nbs_state).query));
+                if &(query_prop) == "seasonal" {
+                    web_sys::window().unwrap().document().unwrap().set_title("ANiNFO | Seasonal Anime");
+                }else {
+                    let nbs_state = nbs_state.clone();
+                    web_sys::window().unwrap().document().unwrap().set_title(&format!("ANiNFO | Search result for: {}", &(*nbs_state).query));
+                }
+
             }
 
             wasm_bindgen_futures::spawn_local(async move {
@@ -111,20 +57,35 @@ pub fn anime_result(props: &Props) -> Html {
                     nav_used.push(&Route::Loading);
                 }
 
-                let result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime?q={}&page={}", nbs_state.query, (*app_ctx_cloned).cur_page))
-                .send()
-                .await
-                .unwrap()
-                .json::<QueryResult>()
-                .await
-                .unwrap();
+                if &query_prop == "search" {
+                    let result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime?q={}&page={}{}", nbs_state.query, (*app_ctx_cloned).cur_page, handle_nsfw(&app_ctx)))
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<QueryResult>()
+                    .await
+                    .unwrap();
+    
+                    r_disp.set(result);
 
-                r_disp.set(result);
-                log!((*app_ctx_cloned).loading_page);
+                } else {
+
+                    let result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/seasons/now?page={}{}", (*app_ctx_cloned).cur_page, handle_nsfw(&app_ctx)))
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<QueryResult>()
+                    .await
+                    .unwrap();
+
+                    r_disp.set(result);
+                }
+
+                // log!((*app_ctx_cloned).loading_page);
                 if (*app_ctx).loading_page.clone() {
                     let nav_used = nav.clone();
                     app_ctx.dispatch((*app_ctx).update_loading_page_into(false));
-                    nav_used.push(&Route::AnimeResult { page: 0 });
+                    nav_used.replace(&Route::AnimeResult { page: 0 , query: (&query_prop).to_string(), content_title: (&content_title).to_string()})
                 }
             });
 
@@ -137,7 +98,7 @@ pub fn anime_result(props: &Props) -> Html {
     
     html!{
         <>
-        <h1 class={format!("ani-result-h3 {}", &theme)}>{"Search Result"}</h1>
+        <h1 class={format!("content-heading {}", &theme)}>{content_title.clone()}</h1>
         <div class="page-btn-wrapper">
         <div class="page-btn">
         {(1..(*r_state).pagination.last_visible_page).map(|n| {
@@ -148,9 +109,10 @@ pub fn anime_result(props: &Props) -> Html {
                     <button class="btn-selected" onclick={
                         let app_ctx = app_ctx.clone();
                         let nav = nav.clone();
+                        let (query_prop, content_title) = (query_prop.clone(), content_title.clone());
                         move |e: MouseEvent| {
                             app_ctx.dispatch((*app_ctx).update_page_into(n as u8).update_loading_page_into(true));
-                            nav.push(&Route::AnimeResult {page: 0});
+                            nav.push(&Route::AnimeResult { page: 0 , query: (&query_prop).to_string(), content_title: (&content_title).to_string()});
                         }
                     }><b>{n}</b></button>
                 )
@@ -158,7 +120,9 @@ pub fn anime_result(props: &Props) -> Html {
                 html!(<button onclick={
                     let app_ctx = app_ctx.clone();
                     let nav = nav.clone(); 
-                    move |e: MouseEvent| {app_ctx.dispatch((*app_ctx).update_page_into(n as u8).update_loading_page_into(true)); nav.push(&Route::AnimeResult{page: 0})}}>{n}</button>)
+                    let (query_prop, content_title) = (query_prop.clone(), content_title.clone());
+                    move |e: MouseEvent| {app_ctx.dispatch((*app_ctx).update_page_into(n as u8).update_loading_page_into(true)); 
+                        nav.push(&Route::AnimeResult { page: 0 , query: {&query_prop}.to_string(), content_title: (&content_title).to_string()})}}>{n}</button>)
             }
             
         }).collect::<Html>()}

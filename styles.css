@@ -2,6 +2,45 @@
     box-sizing: border-box;
     font-family: "Noto Sans JP", serif;
     margin: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.home-page-wrapper {
+    padding: 0 80px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    border-radius: 20px;
+}
+
+.home-seasonal, .home-top {
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 80vh;
+    overflow: auto;
+    mask-image: linear-gradient(to bottom, transparent,
+    black 6%,
+    black 94%,
+    transparent 100%);
+-webkit-mask-image: linear-gradient( to bottom,transparent,
+    black 6%,
+    black 94%,
+    transparent 100%);
+}
+
+.home-seasonal .ani-card .card-desc, .home-top .ani-card .card-desc  {
+    display: block;
+    padding-right: 40px;
+}
+
+.home-page-wrapper div div {
+    width: 375px !important;
+}
+
+.home-page-wrapper div div div img {
+    width: 327px !important;
+    left: 5px;
 }
 
 a, button {
@@ -29,14 +68,40 @@ h4 {
     color: rgb(243, 243, 243);
 }
 
+.dark-emp {
+    background-color: rgb(36, 33, 56);
+}
+
 .light {
     background-color: whitesmoke;
     color: black;
 }
 
+.light-emp {
+    background-color: rgb(235, 235, 235);
+}
+
 body {
     position: relative;
     padding: 0;
+}
+
+html {
+    height: auto;
+    background-color: whitesmoke;
+}
+
+#main-logo-navbar {
+    position: relative;
+    bottom: 4px;
+    transition: all 0.4s ease-in-out;
+}
+
+.dark #main-logo-navbar: ver {
+    color: #fff;
+    text-shadow: 0 0 10px #fff,
+                 0 0 20px #eee,
+                 0 0 40px #ddd;
 }
 
 .top_navbar {
@@ -48,6 +113,16 @@ body {
     margin: 0 auto;
     padding: 20px;
     z-index: 999;
+    padding-top: 12px;
+    padding-bottom: 10px;
+}
+
+.top-navbar[class*="dark"] {
+    background-color: rgb(36, 33, 56) !important;
+}
+
+.top-navbar[class*="light"] {
+    background-color: rgb(235, 235, 235) !important;
 }
 
 .nb-btn-theme {
@@ -62,20 +137,22 @@ body {
 
 .nb-btn {
     display: block;
-    width:fit-content;
+    height: 41px;
+    width: calc(fit-content + 100rem);
     font-weight: 600;
-    padding: 10px;
-    border-radius: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+    border-radius: 20px;
 }
 
 .nb-span-left {
     display: inline-flex;
-    gap: 15px;
+    gap: 12px;
 }
 
 .nb-span-right {
     display: inline-flex;
-    gap: 15px;
+    gap: 12px;
     vertical-align: middle;
 }
 
@@ -99,6 +176,19 @@ body {
     color: white;
 }
 
+#nsfw-tog-wrapper {
+    padding-top: 8px;
+}
+
+#nsfw-tog-label {
+    flex-direction: column;
+    font-size: 10px;
+  }
+
+#nsfw-span {
+    font-size: 12px;
+}
+
 #q-anime {
     display: block;
     border-radius: 20px;
@@ -108,6 +198,12 @@ body {
     margin: auto 0;
     padding-left: 17px;
     margin-top: 6px;
+}
+
+#q-anime[class~="dark"]:focus-within, #q-anime[class~="dark"]:hover {
+    color: #fff;
+    box-shadow: 0 0 10px #fff,
+                 0 0 20px #eee;
 }
 
 .nb-btn-submit {
@@ -132,9 +228,21 @@ body {
     padding: 0 5rem;
 }
 
-.ani-result-h3{
-    margin: 0 7rem;
+#search-logo {
+    height: 32px;
+    margin-top: 10px;
+    margin-right: 10px;
+    background: none;
+}
+
+#search-logo[class*="dark"] {
+    filter: invert(1);
+}
+
+.content-heading {
+    margin: 0 6.8rem;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .ani-card {
@@ -148,6 +256,35 @@ body {
     height: 600px;
     padding: 15px 18px;
     margin: 2vh 1vw 2vh 1vw
+}
+
+.stream-wrapper {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.stream-card {
+    border-radius: 20px;
+    width: fit-content;
+    padding: 20px;
+}
+
+.stream-card:hover {
+    transform: scale(1.15);
+    margin-right: 16px;
+    margin-left: 16px;
+    transition: all 0.15s;
+}
+
+.stream-logo {
+    height: 50px;
+    background: transparent !important;
+    border-radius: 20px;
+}
+
+.stream-logo[class*="light"] {
+    filter: invert(1);
 }
 
 .ani-card[class~="dark"] {
@@ -231,7 +368,8 @@ body {
 
 .ani-desc .char-info {
     margin-top: 10px;
-    overflow: scroll;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .ani-desc .char-info .char-wrapper {
@@ -260,13 +398,21 @@ body {
     flex-direction: column;
     margin-right: 8px !important;
     margin-left: 8px !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+.char-card:hover {
+    z-index: 998;
+    top: 0;
+    transform: scale(1.1);
+    margin-left: 30px;
+    margin-right: 30px;
+    transition: all 0.2s;
 }
 
 .char-card div {
     display: block;
-}
-
-.char-wrapper {
 }
 
 .chard-card-name {
@@ -293,6 +439,44 @@ body {
 .char-card[class~="light"] {
     display: inline-block;
     background-color: rgb(235, 235, 235);
+}
+
+.eps-card-wrapper {
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.eps-card {
+    display: inline-flex;
+    width: 100%;
+    margin: 4px 0;
+    padding: 4px;
+    padding-bottom: 5px;
+    border-radius: 15px;
+    overflow-x: auto;
+}
+
+.eps-card div {
+    display: inline-block;
+}
+
+a {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+div#eps-no h3 {
+    width: 30px;
+    text-align: right;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 2px;
+}
+
+div#eps-info {
+    margin-top: 2px;
 }
 
 .loading {
@@ -366,7 +550,8 @@ body {
 }
 
 .page-btn-wrapper {
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     width: 80vw;
     text-align: center;
     margin: 0 auto;      
@@ -397,6 +582,7 @@ body {
 .page-btn {
     margin: 10px auto;
     display: inline-flex;
+    overflow-y: hidden;
     overflow-x: auto;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  
@@ -560,6 +746,16 @@ body {
 }
 
 @media only screen and (max-width: 1200px) {
+    .eps-card {
+        display: inline-flex;
+        width: 100%;
+        margin: 8px 0;
+        padding: 4px;
+        padding-bottom: 7px;
+        border-radius: 15px;
+        text-align: left;
+    }
+
     .ani-desc {
         width: 90%;
         display: block;
@@ -580,6 +776,16 @@ body {
 }
 
 @media only screen and (max-width: 850px) {
+    .eps-card {
+        display: inline-flex;
+        width: 100%;
+        margin: 8px 0;
+        padding: 4px;
+        padding-bottom: 7px;
+        border-radius: 15px;
+        text-align: left;
+    }
+
     .ani-desc {
         width: 100%;
         display: block;

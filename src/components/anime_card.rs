@@ -63,6 +63,7 @@ pub fn anime_card(anime_obj: &AnimeObjAsProp) -> Html {
             <div class="card-desc">
             <a onclick={(&go_to_desc).clone()} style={"cursor: pointer"}><h4 id="ani-title">{format!("{}", title_rendered)}</h4></a>
             // <div id="ani-yr">{format!("{}", &(anime_obj.anime_obj.year.as_ref().clone().unwrap_or(&0)))}</div>
+            // <div id="ani-yr"><i>{format!("{}", &(anime_obj.anime_obj.year.as_ref().unwrap_or(&0)))}</i></div>
             <div id="ani-rating">{format!("Rating: {} / 10.0", &(anime_obj.anime_obj.score.as_ref().unwrap_or(&0.0)))}</div>
             <div id="ani-stat">{format!("Status: {}", &(anime_obj.anime_obj.status.as_ref().unwrap_or(&"Unavailable".to_string())))}</div>
             </div>

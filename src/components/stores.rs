@@ -137,3 +137,38 @@ pub struct CharImg {
     pub image_url: Option<String>,
     pub small_image_url: Option<String>
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq)]
+pub struct AnimeEpisode {
+    pub mal_id: u32,
+    pub url: Option<String>,
+    pub title: String,
+    pub title_japanese: Option<String>,
+    pub title_romanji: Option<String>,
+    pub aired: Option<String>,
+    pub forum_url: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq)]
+pub struct AnimeEpisodeWrapper {
+    pub data: Vec<AnimeEpisode>,
+    pub pagination: AnimeEpisodePagination
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq)]
+pub struct AnimeEpisodePagination {
+    pub last_visible_page: u8,
+    pub has_next_page: bool
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq)]
+pub struct SeasonObj {
+    pub year: u32,
+    pub seasons: Vec<String>
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, Default, PartialEq)]
+pub struct SeasonsWrapper {
+    pub pagination: AnimeEpisodePagination,
+    pub data: Vec<SeasonObj>
+}

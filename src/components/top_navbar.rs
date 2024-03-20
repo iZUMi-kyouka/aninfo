@@ -1,3 +1,5 @@
+// region: --- code
+
 use serde::{Deserialize, Serialize};
 use yew::prelude::*;
 use yew_router::hooks::use_navigator;
@@ -104,18 +106,31 @@ pub fn top_navbar() -> Html {
             let app_ctx = app_ctx.clone();
 
             wasm_bindgen_futures::spawn_local(async move {
-                let result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime?q={}", query))
+                let mut result: QueryResult;
+
+                if (*app_ctx).nsfw {
+                    result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime?q={}", query))
                     .send()
                     .await
                     .unwrap()
                     .json::<QueryResult>()
                     .await
                     .unwrap();
+                } else {
+                    result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime?q={}&sfw=true", query))
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<QueryResult>()
+                    .await
+                    .unwrap();
+                }
+
 
                 log!(format!("{:?}", &result));
                 r_disp.set(result);
                 app_ctx.dispatch((*app_ctx).update_loading_page_into(false));
-                nav.replace(&Route::AnimeResult { page: 0 })
+                nav.replace(&Route::AnimeResult { page: 0 , query: "search".to_string(), content_title: "Search Result".to_string()})
                 
             });
             log!("Successfully retrieved JSON response!");
@@ -135,18 +150,80 @@ pub fn top_navbar() -> Html {
             .select();
     });
 
+    let go_seasonal = {
+        let query = (*q_state).query.clone();
+        let r_disp = r_disp.clone();
+        let nav = navigator.clone();
+        let app_ctx = app_ctx.clone();
+
+        Callback::from(move |e: MouseEvent| {
+            app_ctx.dispatch((*app_ctx).update_loading_page_into(true));
+            nav.push(&Route::Loading);
+            e.prevent_default();
+            let query = query.clone();
+            let r_disp = r_disp.clone();
+            let nav = nav.clone();
+            let app_ctx = app_ctx.clone();
+
+            wasm_bindgen_futures::spawn_local(async move {
+                let result = reqwasm::http::Request::get("https://api.jikan.moe/v4/seasons/now")
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<QueryResult>()
+                    .await
+                    .unwrap();
+
+                log!(format!("{:?}", &result));
+                r_disp.set(result);
+                app_ctx.dispatch((*app_ctx).update_loading_page_into(false));
+                nav.replace(&Route::AnimeResult { page: 0 , query: "seasonal".to_string(), content_title: "Current Season".to_string()})
+                
+            });
+            log!("Successfully retrieved JSON response!");
+            log!("Pushing to navigator...");
+        })
+    };
+
+    let handle_nsfw = {
+        let app_ctx = app_ctx.clone();
+        Callback::from(move |e: MouseEvent| {
+            let cur_value = (*app_ctx).nsfw;
+            let mut user_ok: bool;
+
+            if !cur_value {
+                user_ok = web_sys::window()
+                .unwrap()
+                .confirm_with_message("Toggling this NSFW (Not Safe For Work) checkbox may result in anime depicting adult content to be shown.\nYou must be of age to view such content to continue.\nPress OK if you are 17 years old or older, or CANCEL otherwise.\n\nNOTE: Under all circumstances, all images shown in ANiNFO remain censored.")
+                .unwrap();
+            } else {
+                user_ok = true;
+            }
+
+            if user_ok {
+                let value = e.target_unchecked_into::<HtmlInputElement>().checked();
+                log!("nsfw flag: ", value);
+                app_ctx.dispatch((*app_ctx).update_loading_page_into(true).update_nsfw_into(value));
+                log!("updated nsfw flag to", (*app_ctx).nsfw);
+            }
+        })
+    };
+
+// endregion: --- code
     html! {
-        <div class={format!("top_navbar {}", &class_added)}>
+        <div class={format!("top_navbar {}-emp", &class_added)}>
             <span class="nb-span-left">
                 <a onclick={go_home} style={"cursor: pointer"}><h1 id="main-logo-navbar">{"ANiNFO"}</h1></a>
                 // <button class="nb-btn" onclick={go_home}>{"Home"}</button>
                 <button id="navbar-about-btn" class="nb-btn" onclick={go_about}>{"About"}</button>
+                <button class="nb-btn" onclick={go_seasonal}>{"Seasonal"}</button>
             </span>
 
             <span class="nb-span-right">
                 <form onsubmit={search_anime} method="post">
-                <label for="q-anime"><span id="label-q-anime">{"Search"}</span>
+                <label for="q-anime"><img class={class_added} id="search-logo" src="static/search_2.png"/>
                 <input class={class_added} id="q-anime" type="text" oninput={q_anime_update} onfocus={clear_text}/> </label>
+                <div id="nsfw-tog-wrapper"><label for="nsfw-tog" id="nsfw-tog-label"><input onclick={handle_nsfw} id="nsfw-tog" type="checkbox"/><span id="nsfw-span"> {"NSFW"}</span></label></div>
                 <button class="nb-btn-submit" type="submit">{"Submit"}</button>
                 </form>
                 <button class="nb-btn-theme" onclick={theme_toggle_onchange}>{theme_tog_label}</button>

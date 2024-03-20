@@ -14,3 +14,5 @@ pub mod privacy_policy;
 pub mod anime_result_v2;
 pub mod char_card;
 pub mod back_btn;
+pub mod TEMPLATE;
+pub mod episode_card;

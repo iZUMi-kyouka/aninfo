@@ -70,9 +70,10 @@ pub fn app() -> Html {
             <div class="router-wrapper">
                 <TopNavbar/>
                 <Switch<Route> render={switch}/>
-            </div>
+
             // <BackBtn/>
-            <Footer/>
+            </div>
+                <Footer/>
             </BrowserRouter>
             </AnimeObjContextProvider>
         </AppContextProvider>

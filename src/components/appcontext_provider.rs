@@ -28,7 +28,8 @@ pub struct AppCtx {
     pub theme: Theme,
     pub language: Language,
     pub cur_page: u8,
-    pub loading_page: bool
+    pub loading_page: bool,
+    pub nsfw: bool,
 }
 
 impl Reducible for AppCtx {
@@ -46,7 +47,8 @@ impl AppCtx {
             theme: new_theme,
             language: (&self.language).clone(),
             cur_page: (&self).cur_page,
-            loading_page: (&self).loading_page
+            loading_page: (&self).loading_page,
+            nsfw: (&self).nsfw,
         }
     }
 
@@ -55,7 +57,8 @@ impl AppCtx {
             theme: (&self.theme).clone(),
             language: new_lang,
             cur_page: (&self).cur_page,
-            loading_page: (&self).loading_page
+            loading_page: (&self).loading_page,
+            nsfw: (&self).nsfw,
         }
     }
 
@@ -64,7 +67,8 @@ impl AppCtx {
             theme: (&self.theme).clone(),
             language: (&self).language.clone(),
             cur_page: new_page,
-            loading_page: (&self).loading_page
+            loading_page: (&self).loading_page,
+            nsfw: (&self).nsfw,
         }
     }
 
@@ -73,7 +77,18 @@ impl AppCtx {
             theme: (&self.theme).clone(),
             language: (&self).language.clone(),
             cur_page: (&self).cur_page,
-            loading_page: new_status
+            loading_page: new_status,
+            nsfw: (&self).nsfw,
+        }
+    }
+
+    pub fn update_nsfw_into(&self, new_status: bool) -> AppCtx {
+        AppCtx {
+            theme: (&self.theme).clone(),
+            language: (&self).language.clone(),
+            cur_page: (&self).cur_page,
+            loading_page: (&self).loading_page,
+            nsfw: new_status,
         }
     }
 }
@@ -92,7 +107,8 @@ pub fn app(props: &AppContextProviderProps) -> Html {
         theme: DARK_THEME,
         language: Language::EN,
         cur_page: 1,
-        loading_page: false
+        loading_page: false,
+        nsfw: false,
     });
 
     let app_ctx_cloned = app_ctx.clone();

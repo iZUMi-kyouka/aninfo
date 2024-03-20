@@ -1,8 +1,9 @@
+use gloo::console::log;
 use yew::prelude::*;
 use yew_router::prelude::*;
 use yewdux::prelude::*;
 
-use crate::{components::{animeobjcontext_provider::AnimeObjContext, appcontext_provider::{AppContext, Language}, char_card::CharCard}, utils::handle_theme, Route};
+use crate::{components::{animeobjcontext_provider::AnimeObjContext, appcontext_provider::{AppContext, Language, DARK_THEME}, char_card::CharCard, episode_card::EpisodeCard, stores::{AnimeEpisode, AnimeEpisodeWrapper}}, utils::handle_theme, Route};
 
 use super::stores::{AnimeObj, AnimeObjAsProp, CharWrapper};
 
@@ -13,6 +14,7 @@ pub fn anime_desc() -> Html {
     let app_ctx = use_context::<AppContext>().unwrap();
     let nav = use_navigator().unwrap();
     let (char_s, char_disp) = use_store::<CharWrapper>();
+    let anime_eps_vec: UseStateHandle<Vec<AnimeEpisode>> = use_state(|| Vec::new());
     
     if let None = anime_obj.anime_obj.as_ref() {
         nav.replace(&Route::Home);
@@ -32,10 +34,11 @@ pub fn anime_desc() -> Html {
     }
     
     let mut title_rendered = "".to_string();
+    let mut default_title = "".to_string();
 
     match &((*app_ctx).language) {
         &Language::EN => {
-            if let Some(t) = en_ttl {
+            if let Some(t) = en_ttl.clone() {
                 title_rendered = t
             } else {
                 title_rendered = (anime_obj.anime_obj.as_ref().unwrap().titles[0].title).to_string();
@@ -43,13 +46,19 @@ pub fn anime_desc() -> Html {
         },
 
         &Language::JP => {
-            if let Some(t) = jp_ttl {
+            if let Some(t) = jp_ttl.clone() {
                 title_rendered = t;
             } else {
                 title_rendered = (anime_obj.anime_obj.as_ref().unwrap().titles[0].title).to_string();
             }
         }
     }
+
+    default_title = (anime_obj.anime_obj.as_ref().unwrap().titles[0].title).to_string();
+    if let Some(t) = en_ttl.clone() {
+        default_title = t.clone();
+    }
+    
 
     {
         let app_ctx = app_ctx.clone();
@@ -58,8 +67,10 @@ pub fn anime_desc() -> Html {
         let char_disp = char_disp.clone();
         let nav = nav.clone();
         let title_rendered = title_rendered.clone();
+        let anime_eps_vec = anime_eps_vec.clone();
 
         use_effect_with(char_s, move |_| {
+            let anime_eps_vec = anime_eps_vec.clone();
             web_sys::window().unwrap().document().unwrap().set_title(&format!("ANiNFO: {}", title_rendered));
             let nav_cloned = nav.clone();
 
@@ -76,6 +87,41 @@ pub fn anime_desc() -> Html {
                 .json::<CharWrapper>()
                 .await
                 .unwrap();
+                
+                let eps_data = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime/{}/episodes", anime_obj.anime_obj.as_ref().unwrap().mal_id))
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<AnimeEpisodeWrapper>()
+                    .await
+                    .unwrap();
+
+                let mut pagination_data = (eps_data.pagination).clone();
+                let mut cur_page = 1u8;
+                let mut temp_data: Vec<AnimeEpisode> = Vec::new();
+
+                eps_data.data.iter().for_each({|eps_obj| {
+                    temp_data.push(eps_obj.clone());
+                }});
+
+                while pagination_data.has_next_page {
+                    let eps_data = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime/{}/episodes?page={}", anime_obj.anime_obj.as_ref().unwrap().mal_id, cur_page+1))
+                    .send()
+                    .await
+                    .unwrap()
+                    .json::<AnimeEpisodeWrapper>()
+                    .await
+                    .unwrap();
+
+                    pagination_data = (eps_data.pagination).clone();
+                    eps_data.data.iter().for_each({|eps_obj| {
+                        temp_data.push(eps_obj.clone());
+                    }});
+                    cur_page += 1;
+                }
+
+                log!(format!("{:?}", &temp_data));
+                anime_eps_vec.set(temp_data);
             
                 char_disp.set(result);
                 if (*app_ctx).loading_page == true {
@@ -90,8 +136,9 @@ pub fn anime_desc() -> Html {
     html! {
         <div class={format!("ani-desc {}", theme)}>
             <div class="header">
-                
+                <div id="header-img">
                 <img src={(anime_obj.anime_obj.as_ref().unwrap().images.jpg.image_url.as_ref().unwrap().clone())}/>
+                </div>
                 <div class="header-desc">
                 <h3 id="ani-title">{format!("{}", title_rendered)}</h3>
                 // <div id="ani-yr">{format!("{}", &(anime_obj.anime_obj.year.as_ref().clone().unwrap_or(&0)))}</div>
@@ -134,6 +181,25 @@ pub fn anime_desc() -> Html {
             </div>
 
             </div>
+
+            <h2>{"Stream / Download"}</h2>
+            <div class={format!("stream-wrapper {}", handle_theme(&app_ctx))}>
+            <a target="_blank" href={format!("https://aniwave.to/filter?keyword={}", &default_title)}>
+            <div class={format!("stream-card {}-emp", handle_theme(&app_ctx))}>
+
+                    <img class={format!("stream-logo {}", theme)} src="static/aw.png"/>
+                    <p>{"Watch on "}<b>{"Aniwave"}</b></p>
+    
+                </div>
+                </a>
+                <a target="_blank" href={format!("https://nyaa.si/?f=0&c=1_0&q={}&s=seeders&o=desc", &default_title)}>
+                <div class={format!("stream-card {}-emp", handle_theme(&app_ctx))}>
+
+                    <img class={format!("stream-logo {}", theme)} src="static/nyaa.png"/>
+                    <p>{"Find on "}<b>{"Nyaa.si"}</b></p>
+                </div>
+                </a>
+            </div>
             
             <h2>{"Characters"}</h2>
             <div class="char-info">
@@ -144,6 +210,13 @@ pub fn anime_desc() -> Html {
                 }
             }).collect::<Html>()}
             </div>
+            </div>
+
+            <h2>{"Episodes"}</h2>
+            <div class="eps-card-wrapper">
+                {(*anime_eps_vec).clone().into_iter().map(|eps_obj| {
+                    html!(<EpisodeCard anime_eps={eps_obj}/>)
+                }).collect::<Html>()}
             </div>
         </div>
     }

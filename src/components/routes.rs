@@ -9,8 +9,8 @@ pub enum Route {
     Home,
     #[at("/about")]
     About,
-    #[at("/anime_result/:page")]
-    AnimeResult {page: u8},
+    #[at("/anime_result/:page/:query/:content_title")]
+    AnimeResult {page: u8, query: String, content_title: String},
     #[at("/anime_result_v2")]
     AnimeResultV2,
     #[at("/anime_description")]
@@ -25,7 +25,7 @@ pub fn switch(routes: Route) -> Html {
     match routes {
         Route::Home => html!{<HomePage/>},
         Route::About => html!{<AboutPage/>},
-        Route::AnimeResult {page} => html!{<AnimeResult page={page}/>},
+        Route::AnimeResult {page, query, content_title} => html!{<AnimeResult page={page} query={query} content_title={content_title}/>},
         Route::AnimeDescription => html!{<AnimeDesc/>},
         Route::Loading => html!{<Loading/>},
         Route::PrivacyPolicy => html!{<PrivacyPolicy/>},
