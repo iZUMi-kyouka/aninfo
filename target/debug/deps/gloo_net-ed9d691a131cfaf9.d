@@ -1,0 +1,11 @@
+C:\Users\Flo\Desktop\Rust\aninfo\target\debug\deps\libgloo_net-ed9d691a131cfaf9.rmeta: C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\lib.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\error.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\http\mod.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\http\headers.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\websocket\mod.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\websocket\events.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\websocket\futures.rs
+
+C:\Users\Flo\Desktop\Rust\aninfo\target\debug\deps\gloo_net-ed9d691a131cfaf9.d: C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\lib.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\error.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\http\mod.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\http\headers.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\websocket\mod.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\websocket\events.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\websocket\futures.rs
+
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\lib.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\error.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\http\mod.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\http\headers.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\websocket\mod.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\websocket\events.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\gloo-net-0.1.0\src\websocket\futures.rs:

@@ -240,6 +240,12 @@ body {
     overflow-x: auto;
     white-space: nowrap;
     width: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  
+}
+
+.ani-desc .char-info .char-wrapper::-webkit-scrollbar {
+    display: none;
 }
 
 .char-info h2 {
@@ -359,9 +365,41 @@ body {
     margin-bottom: 30px;
 }
 
+.page-btn-wrapper {
+    overflow: auto;
+    width: 80vw;
+    text-align: center;
+    margin: 0 auto;      
+    padding-left: 40px;
+    padding-right: 40px;
+    mask-image: linear-gradient(transparent,
+        black 4%,
+        black 96%,
+        transparent 100%);
+    -webkit-mask-image: linear-gradient( to right,transparent,
+        black 4%,
+        black 96%,
+        transparent 100%);
+}
+
+/* .fader {
+    --mask: linear-gradient(to right, 
+    rgba(0,0,0, 1) 0,   rgba(0,0,0, 1) 40%, 
+    rgba(0,0,0, 0) 95%, rgba(0,0,0, 0) 0
+) 100% 50% / 100% 100% repeat-x;
+    width: 100%;
+    border: 1px #d8d8d8 dashed;
+    font: 2em/1.6em Arial;
+    -webkit-mask: var(--mask); 
+    mask: var(--mask);
+} */
+
 .page-btn {
     margin: 10px auto;
-    width: fit-content;
+    display: inline-flex;
+    overflow-x: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  
 }
 
 .page-btn button {
@@ -381,6 +419,19 @@ body {
 
 .page-btn .btn-selected {
     border-color: rgb(255, 255, 255);
+}
+
+.back-btn {
+    position: fixed;
+    bottom: 75px;
+    left: 50px;
+}
+
+.back-btn button {
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    font-size: 14px;
 }
 
 .loading-wrapper {

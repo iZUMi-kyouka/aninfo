@@ -4,6 +4,7 @@ use web_sys::HtmlElement;
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
 use yew_router::prelude::*;
+use crate::components::back_btn::BackBtn;
 use crate::components::footer::Footer;
 use crate::{body_bg::BodyWrapper, components::{animeobjcontext_provider::AnimeObjContextProvider, appcontext_provider::{self, AppContextProvider}, stores::TestObj, top_navbar::TopNavbar}};
 use crate::components::routes::*;
@@ -70,6 +71,7 @@ pub fn app() -> Html {
                 <TopNavbar/>
                 <Switch<Route> render={switch}/>
             </div>
+            // <BackBtn/>
             <Footer/>
             </BrowserRouter>
             </AnimeObjContextProvider>

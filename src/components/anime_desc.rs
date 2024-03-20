@@ -16,7 +16,8 @@ pub fn anime_desc() -> Html {
     
     if let None = anime_obj.anime_obj.as_ref() {
         nav.replace(&Route::Home);
-    }
+        return html!()  
+    } 
 
     let mut en_ttl = None;
     let mut jp_ttl = None;
@@ -51,10 +52,21 @@ pub fn anime_desc() -> Html {
     }
 
     {
+        let app_ctx = app_ctx.clone();
         let anime_obj = anime_obj.clone();
         let char_s = char_s.clone();
         let char_disp = char_disp.clone();
+        let nav = nav.clone();
+        let title_rendered = title_rendered.clone();
+
         use_effect_with(char_s, move |_| {
+            web_sys::window().unwrap().document().unwrap().set_title(&format!("ANiNFO: {}", title_rendered));
+            let nav_cloned = nav.clone();
+
+            if (*app_ctx).loading_page == true {
+                nav.push(&Route::Loading)
+            }
+
             let char_disp = char_disp.clone();
             wasm_bindgen_futures::spawn_local(async move {
                 let result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime/{}/characters", anime_obj.anime_obj.as_ref().unwrap().mal_id))
@@ -66,6 +78,11 @@ pub fn anime_desc() -> Html {
                 .unwrap();
             
                 char_disp.set(result);
+                if (*app_ctx).loading_page == true {
+                    app_ctx.dispatch((*app_ctx).update_loading_page_into(false));
+                    nav_cloned.back();
+                    nav_cloned.replace(&Route::AnimeDescription)
+                }
             });
         })
     }

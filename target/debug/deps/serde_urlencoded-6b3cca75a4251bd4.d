@@ -1,0 +1,11 @@
+C:\Users\Flo\Desktop\Rust\aninfo\target\debug\deps\libserde_urlencoded-6b3cca75a4251bd4.rmeta: C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\lib.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\de.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\mod.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\key.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\pair.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\part.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\value.rs
+
+C:\Users\Flo\Desktop\Rust\aninfo\target\debug\deps\serde_urlencoded-6b3cca75a4251bd4.d: C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\lib.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\de.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\mod.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\key.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\pair.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\part.rs C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\value.rs
+
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\lib.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\de.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\mod.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\key.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\pair.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\part.rs:
+C:\Users\Flo\.cargo\registry\src\index.crates.io-6f17d22bba15001f\serde_urlencoded-0.7.1\src\ser\value.rs:

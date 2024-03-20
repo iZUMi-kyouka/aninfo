@@ -92,13 +92,16 @@ pub fn top_navbar() -> Html {
         let query = (*q_state).query.clone();
         let r_disp = r_disp.clone();
         let nav = navigator.clone();
+        let app_ctx = app_ctx.clone();
 
         Callback::from(move |e: SubmitEvent| {
+            app_ctx.dispatch((*app_ctx).update_loading_page_into(true));
             nav.push(&Route::Loading);
             e.prevent_default();
             let query = query.clone();
             let r_disp = r_disp.clone();
             let nav = nav.clone();
+            let app_ctx = app_ctx.clone();
 
             wasm_bindgen_futures::spawn_local(async move {
                 let result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime?q={}", query))
@@ -111,9 +114,10 @@ pub fn top_navbar() -> Html {
 
                 log!(format!("{:?}", &result));
                 r_disp.set(result);
-                nav.push(&Route::AnimeResult {page: 0});
+                app_ctx.dispatch((*app_ctx).update_loading_page_into(false));
+                nav.replace(&Route::AnimeResult { page: 0 })
+                
             });
-
             log!("Successfully retrieved JSON response!");
             log!("Pushing to navigator...");
         })

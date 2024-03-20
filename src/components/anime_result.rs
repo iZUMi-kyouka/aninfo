@@ -36,10 +36,11 @@ pub fn anime_result(props: &Props) -> Html {
                 let nav = nav.clone();
                 nav.push(&Route::Loading);
             }
-            let nbs_state = nbs_state.clone();
+
             let r_disp = r_disp.clone();
             let nav = nav.clone();
             page.set(*page-1);
+            let nbs_state = nbs_state.clone();
             wasm_bindgen_futures::spawn_local(async move {
                 let result = reqwasm::http::Request::get(&format!("https://api.jikan.moe/v4/anime?q={}&page={}", &((*nbs_state).query), cur_page-1))
                 .send()
@@ -97,6 +98,10 @@ pub fn anime_result(props: &Props) -> Html {
         use_effect_with(app_ctx.clone(), move |_| {
 
             let app_ctx_cloned = app_ctx.clone();
+            {
+                let nbs_state = nbs_state.clone();
+                web_sys::window().unwrap().document().unwrap().set_title(&format!("ANiNFO | Search result for: {}", &(*nbs_state).query));
+            }
 
             wasm_bindgen_futures::spawn_local(async move {
 
@@ -133,6 +138,7 @@ pub fn anime_result(props: &Props) -> Html {
     html!{
         <>
         <h1 class={format!("ani-result-h3 {}", &theme)}>{"Search Result"}</h1>
+        <div class="page-btn-wrapper">
         <div class="page-btn">
         {(1..(*r_state).pagination.last_visible_page).map(|n| {
             // let goto_page = Rc::clone(&goto_page);
@@ -141,8 +147,10 @@ pub fn anime_result(props: &Props) -> Html {
                 html!(
                     <button class="btn-selected" onclick={
                         let app_ctx = app_ctx.clone();
+                        let nav = nav.clone();
                         move |e: MouseEvent| {
-                            app_ctx.dispatch((*app_ctx).update_page_into(n as u8).update_loading_page_into(true))
+                            app_ctx.dispatch((*app_ctx).update_page_into(n as u8).update_loading_page_into(true));
+                            nav.push(&Route::AnimeResult {page: 0});
                         }
                     }><b>{n}</b></button>
                 )
@@ -150,10 +158,11 @@ pub fn anime_result(props: &Props) -> Html {
                 html!(<button onclick={
                     let app_ctx = app_ctx.clone();
                     let nav = nav.clone(); 
-                    move |e: MouseEvent| {app_ctx.dispatch((*app_ctx).update_page_into(n as u8).update_loading_page_into(true))}}>{n}</button>)
+                    move |e: MouseEvent| {app_ctx.dispatch((*app_ctx).update_page_into(n as u8).update_loading_page_into(true)); nav.push(&Route::AnimeResult{page: 0})}}>{n}</button>)
             }
             
         }).collect::<Html>()}
+        </div>
         </div>
         <div class={format!("ani-result {}", &theme)}>
             // <h3>{"Debug Log"}</h3>
@@ -173,7 +182,9 @@ pub fn anime_result(props: &Props) -> Html {
         // if (*r_state).pagination.current_page > 1 {
         //     <a onclick={prev_page}>{"Prev Page"}</a>
         // }
-        <div class="page-btn">
+        <div class="page-btn-wrapper">
+        <div class="fader"></div>
+        <div class="page-btn fade-left fade-right">
         {(1..(*r_state).pagination.last_visible_page).map(|n| {
             // let goto_page = Rc::clone(&goto_page);
             // html!(<button>{n}</button>)
@@ -194,6 +205,7 @@ pub fn anime_result(props: &Props) -> Html {
             }
             
         }).collect::<Html>()}
+        </div>
         </div>
         </div>
         </>

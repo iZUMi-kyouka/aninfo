@@ -8,6 +8,10 @@ pub fn about_page() -> Html {
 
     let theme = handle_theme(&app_ctx);
     
+    use_effect(|| {
+        web_sys::window().unwrap().document().unwrap().set_title(&format!("ANiNFO: {}", "About"));
+    });
+
     html! {
         <div class={format!("about {}", theme)}>
             <h2>{"About ANiNFO"}</h2>

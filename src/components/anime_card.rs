@@ -16,8 +16,10 @@ pub fn anime_card(anime_obj: &AnimeObjAsProp) -> Html {
         let anime_obj = (anime_obj).clone();
         let nav = nav.clone();
         let ao_ctx = ao_ctx.clone();
+        let app_ctx = app_ctx.clone();
         Callback::from(move |event: MouseEvent| {
             ao_ctx.dispatch(anime_obj.anime_obj.clone());
+            app_ctx.dispatch((*app_ctx).update_loading_page_into(true));
             nav.push(&Route::AnimeDescription);
         })
     };
