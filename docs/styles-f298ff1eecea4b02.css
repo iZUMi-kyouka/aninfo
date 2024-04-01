@@ -962,8 +962,8 @@ dialog[open]::backdrop {
     padding-left: 15px;
     padding-right: 15px;
     gap: 10px;
-    padding-top: 1.5px;
-    padding-bottom: 1.5px;
+    padding-top: 3.5px;
+    padding-bottom: 3.5px;
 }
 
 .eps-header {
@@ -1184,8 +1184,8 @@ dialog[open]::backdrop {
     padding-left: 15px;
     padding-right: 15px;
     gap: 10px;
-    padding-top: 1.5px;
-    padding-bottom: 1.5px;
+    padding-top: 3.5px;
+    padding-bottom: 3.5px;
 }
 
 .themesong-card[class~="light"] {
